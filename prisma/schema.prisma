@@ -14,3 +14,19 @@ model Board {
   id Int @default(autoincrement()) @id
   name String
 }
+
+model Column {
+  id Int @default(autoincrement()) @id
+  name String
+  color String?
+  board Int
+}
+
+model Task {
+  id Int @default(autoincrement()) @id
+  name String
+  description String
+  parent Int?
+  column Int
+  board Int
+}
