@@ -1,12 +1,4 @@
-import {
-  Controller,
-  Get,
-  Param,
-  Post,
-  Body,
-  Put,
-  Delete,
-} from '@nestjs/common';
+import { Controller, Get, Param, Post, Body, Delete } from '@nestjs/common';
 import { BoardService } from './board.service';
 import {
   Board as BoardModel,
@@ -18,17 +10,11 @@ import {
 export class BoardController {
   constructor(private readonly boardService: BoardService) {}
 
-  // @Get('board/:id')
-  // async getBoardById(@Param('id') id: string): Promise<BoardModel> {
-  //   return this.boardService.board({ id: Number(id) });
-  // }
-
   @Get()
   async getAllBoards(): Promise<BoardModel[]> {
     return this.boardService.boards({});
   }
 
-  // TODO: accept param for column id
   @Get('board/:id/columns')
   async getColumns(@Param('id') id: string): Promise<ColumnModel[]> {
     return this.boardService.columns({
@@ -38,7 +24,6 @@ export class BoardController {
 
   @Get('board/:id/tasks')
   async getTasks(@Param('id') id: string): Promise<TaskModel[]> {
-    console.log(id);
     return this.boardService.tasks({
       where: { board: +id },
     });
@@ -54,7 +39,7 @@ export class BoardController {
 
   @Post('/task')
   async createTask(@Body() data) {
-    const { name, column, description, CRUDFlag, id, board } = data;
+    const { name, column, description, id, board } = data;
 
     const taskData = {
       name,
@@ -63,7 +48,27 @@ export class BoardController {
       id,
       board,
     };
-    return this.boardService.createOrDeleteTask(CRUDFlag, taskData);
+    return this.boardService.createTask(taskData);
+  }
+
+  @Delete('/task/:id')
+  async deleteTask(@Param('id') id: string) {
+    return this.boardService.deleteTask(id);
+  }
+
+  @Delete('/board/:id')
+  async deleteBoard(@Param('id') id: string) {
+    return this.boardService.deleteBoard(id);
+  }
+
+  @Delete('/tasks')
+  async deleteTasks(@Body() data) {
+    return this.boardService.deleteTasks(data);
+  }
+
+  @Delete('/columns')
+  async deleteColumns(@Body() data) {
+    return this.boardService.deleteColumns(data);
   }
 
   @Post('/columns')
@@ -78,7 +83,6 @@ export class BoardController {
 
   @Post('/tasks')
   async createTasks(@Body() data) {
-    console.log('create tasks data', data);
     return this.boardService.createTasks(data);
   }
 }

@@ -6,14 +6,6 @@ import { Board, Column, Task, Prisma } from '@prisma/client';
 export class BoardService {
   constructor(private prisma: PrismaService) {}
 
-  async board(
-    boardWhereUniqueInput: Prisma.BoardWhereUniqueInput,
-  ): Promise<Board | null> {
-    return this.prisma.board.findUnique({
-      where: boardWhereUniqueInput,
-    });
-  }
-
   async boards(params: {
     skip?: number;
     take?: number;
@@ -71,34 +63,38 @@ export class BoardService {
     });
   }
 
-  async updateBoard(params: {
-    where: Prisma.BoardWhereUniqueInput;
-    data: Prisma.BoardUpdateInput;
-  }): Promise<Board> {
-    const { where, data } = params;
-    return this.prisma.board.update({
-      data,
-      where,
-    });
-  }
-
-  async deleteBoard(where: Prisma.BoardWhereUniqueInput): Promise<Board> {
+  async deleteBoard(id: string): Promise<Board> {
     return this.prisma.board.delete({
-      where,
+      where: { id: +id },
     });
   }
 
-  async createOrDeleteTask(CRUDFlag, data): Promise<Task> {
-    if (CRUDFlag === 'C') {
-      return this.prisma.task.create({
-        data,
-      });
-    }
-    if (CRUDFlag === 'D') {
-      return this.prisma.task.delete({
-        where: { id: data.id },
-      });
-    }
+  async createTask(data): Promise<Task> {
+    return this.prisma.task.create({
+      data,
+    });
+  }
+
+  async deleteTask(id: string): Promise<Task> {
+    return this.prisma.task.delete({
+      where: { id: +id },
+    });
+  }
+
+  async deleteTasks(data): Promise<Task> {
+    // @ts-ignore
+    return this.prisma.task.deleteMany({
+      // @ts-ignore
+      where: { bord: data.board },
+    });
+  }
+
+  async deleteColumns(data): Promise<Column> {
+    // @ts-ignore
+    return this.prisma.column.deleteMany({
+      // @ts-ignore
+      where: { bord: data.board },
+    });
   }
 
   async createColumn(data): Promise<Column> {
