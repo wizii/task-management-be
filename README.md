@@ -1,6 +1,6 @@
 ## API Spec
 
-Visit localhost:800/api for the API specification
+Visit localhost:8000/api for the API specification
 ## Description
 
 [Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
