@@ -8,7 +8,7 @@ Visit localhost:8000/api for the API specification
 
 This app connects to a local postgres database using prisma. To use the endpoints you should have a database set up with the following tables
 
-Your .env file should include DATABASE_URL="postgresql://user:@host:port/DatabaseName?schema=public"
+Your .env file should include DATABASE_URL="postgresql://user:@host:port/DatabaseName?schema=SchemaName"
 
 CREATE TABLE IF NOT EXISTS public."Board"
 (
