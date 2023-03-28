@@ -26,6 +26,36 @@
 
 [Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
 
+
+This app connects to a local postgres database using prisma. To use the endpoints you should have a datbase set up with the following tables
+
+Your .env file should include DATABASE_URL="postgresql://user:@host:port/DatabaseName?schema=public"
+
+CREATE TABLE IF NOT EXISTS public."Board"
+(
+    name character varying COLLATE pg_catalog."default" NOT NULL,
+    id bigint NOT NULL GENERATED ALWAYS AS IDENTITY ( INCREMENT 1 START 1 MINVALUE 1 MAXVALUE 9223372036854775807 CACHE 1 )
+)
+
+CREATE TABLE IF NOT EXISTS public."Column"
+(
+    name character varying COLLATE pg_catalog."default" NOT NULL,
+    id bigint NOT NULL GENERATED ALWAYS AS IDENTITY ( INCREMENT 1 START 1 MINVALUE 1 MAXVALUE 9223372036854775807 CACHE 1 ),
+    color character varying COLLATE pg_catalog."default",
+    board bigint,
+    CONSTRAINT "Column_pkey" PRIMARY KEY (id)
+)
+
+CREATE TABLE IF NOT EXISTS public."Task"
+(
+    name character varying COLLATE pg_catalog."default" NOT NULL,
+    id bigint NOT NULL GENERATED ALWAYS AS IDENTITY ( INCREMENT 1 START 1 MINVALUE 1 MAXVALUE 9223372036854775807 CACHE 1 ),
+    description character varying COLLATE pg_catalog."default",
+    parent bigint,
+    "column" bigint,
+    board bigint
+)
+
 ## Installation
 
 ```bash
