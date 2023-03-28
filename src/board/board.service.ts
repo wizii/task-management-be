@@ -113,4 +113,11 @@ export class BoardService {
       data,
     });
   }
+
+  async createTasks(data): Promise<Task> {
+    // @ts-ignore
+    return this.prisma.task.createMany({
+      data,
+    });
+  }
 }

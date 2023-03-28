@@ -68,13 +68,17 @@ export class BoardController {
 
   @Post('/columns')
   async createColumns(@Body() data) {
-    console.log('create cols data', data);
     return this.boardService.createColumns(data);
   }
 
   @Post('/column')
   async createColumn(@Body() data) {
-    console.log(data);
     return this.boardService.createColumn(data);
+  }
+
+  @Post('/tasks')
+  async createTasks(@Body() data) {
+    console.log('create tasks data', data);
+    return this.boardService.createTasks(data);
   }
 }
